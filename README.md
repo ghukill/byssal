@@ -6,6 +6,10 @@ Byssal - A Repository of Threads
 ### Installation
 
 1- Clone repository
+```shell
+git clone https://github.com/ghukill/byssal
+cd byssal
+```
 
 2- Create virtual environment and install dependencies:
 ```shell
@@ -13,15 +17,18 @@ uv venv .venv
 uv sync
 ```
 
-## Deploy Byssal Repository
-
-1- Create directory
+3- Run tests:
 ```shell
-mkdir my-byssal
-cd my-byssal
+uv run pytest -vv
 ```
 
-2- Create virtual environment
+3- Run linting:
 ```shell
-uv 
+uv run ruff check src/
 ```
+
+## Repository
+
+### Installation
+
+_Coming soon..._

@@ -27,3 +27,40 @@ dev = [
 
 [tool.setuptools.package-data]
 byssal = ["templates/settings.py"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 90
+show-fixes = true
+exclude = []
+
+[tool.ruff.lint]
+select = ["ALL", "PT"]
+ignore = [
+    "D100",
+    "D101",
+    "D103",
+    "D104",
+    "G004"
+]
+
+fixable = ["E", "F", "I", "Q"]
+
+[tool.ruff.lint.flake8-annotations]
+mypy-init-return = true
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*" = [
+    "ANN",
+    "ARG001",
+    "S101",
+]
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 90
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

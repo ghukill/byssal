@@ -1,42 +1,38 @@
-from importlib import resources
+import logging
+import shutil
+from importlib.resources import as_file, files
 from pathlib import Path
 
 import click
 
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler()],
+)
+logger = logging.getLogger(__name__)
+
 
 @click.group()
-def main():
+def main() -> None:
     pass
 
 
 @main.command()
-def ping():
+def ping() -> None:
     """Debug."""
     click.echo("pong, from byssal")
 
 
 @main.command()
-def init():
+def init() -> None:
     """Initialize a new Byssal project."""
     project_path = Path.cwd()
 
-    data_path = project_path / "data"
-    data_path.mkdir()
-    click.echo(f"Created data subdirectory: {data_path}")
-
-    try:
-        with resources.open_text(
-            "byssal.templates",
-            "settings.py",
-        ) as template_file:
-            settings_content = template_file.read()
-    except Exception as e:
-        click.echo(f"Failed to load settings template: {e}")
-        return
-
-    settings_file = project_path / "settings.py"
-    settings_file.write_text(settings_content)
-    click.echo(f"Created settings file: {settings_file}")
+    template_dir = files("byssal.templates") / "new_project"
+    with as_file(template_dir) as src:
+        shutil.copytree(src, project_path, dirs_exist_ok=True)
+    logger.info(f"Copied project template from '{src}' to '{project_path}'")
 
 
 if __name__ == "__main__":
