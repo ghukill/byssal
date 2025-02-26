@@ -31,10 +31,12 @@ class POSIXLocalThread(Thread):
 
     @classmethod
     def from_filepath(cls, filepath: str | Path):
+        if isinstance(filepath, str):
+            filepath = Path(filepath)
         return cls(
             thread_uuid=str(uuid.uuid4()),
             md5=cls.calculate_md5_from_filepath(filepath),
-            uri=filepath,
+            uri=str(filepath),
             created=datetime.datetime.now(),
             exists=True,
         )

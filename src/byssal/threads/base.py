@@ -1,10 +1,10 @@
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 import datetime
 
 THREAD_REGISTRY = {}
 
 
-class Thread:
+class Thread(ABC):
     """Represents a known resource thread."""
 
     thread_type: str = None
