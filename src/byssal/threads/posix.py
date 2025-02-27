@@ -40,3 +40,7 @@ class POSIXLocalThread(Thread):
             created=datetime.datetime.now(),
             exists=True,
         )
+
+    def read(self) -> bytes:
+        with open(self.uri, "rb") as f:
+            return f.read()

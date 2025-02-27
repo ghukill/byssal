@@ -42,3 +42,7 @@ class Thread(ABC):
         if not self._exists:
             self._exists = self.check_exists()
         return self._exists
+
+    @abstractmethod
+    def read(self) -> bytes:
+        pass
