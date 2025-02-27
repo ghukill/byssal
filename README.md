@@ -14,7 +14,7 @@ cd byssal
 2- Create virtual environment and install dependencies:
 ```shell
 uv venv .venv
-uv sync
+uv sync --dev
 ```
 
 3- Run tests:

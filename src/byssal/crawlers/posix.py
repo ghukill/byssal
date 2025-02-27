@@ -8,14 +8,13 @@ logger = logging.getLogger(__name__)
 
 
 class POSIXLocalCrawler(Crawler):
-    def __init__(self, root_paths: list[str | Path]):
-        self.root_paths = root_paths
+    def __init__(self, root_path: str | Path):
+        self.root_path = Path(root_path).expanduser()
 
     def crawl(self):
-        for root_path in self.root_paths:
-            for file in self._discover_files(root_path):
-                thread = POSIXLocalThread.from_filepath(file)
-                yield thread
+        for file in self._discover_files(self.root_path):
+            thread = POSIXLocalThread.from_filepath(file)
+            yield thread
 
     @staticmethod
     def _discover_files(root_dir: str | Path):

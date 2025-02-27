@@ -10,10 +10,10 @@ if TYPE_CHECKING:
 
 class Repository:
     def __init__(self, db_filepath: str | Path):
-        self.db_filepath = db_filepath
+        self.db_filepath = Path(db_filepath).expanduser()
 
     def get_connection(self):
-        return sqlite3.connect(str(self.db_filepath))
+        return sqlite3.connect(Path(self.db_filepath))
 
     def create_database(self):
         with self.get_connection() as connection:
