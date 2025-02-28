@@ -1,10 +1,5 @@
-from byssal.repository import Repository
-from byssal.crawlers.posix import POSIXLocalCrawler
-
-
-def test_repo_run_crawlers():
-    repo = Repository("/tmp/byssal.sqlite")
-    posix_crawler = POSIXLocalCrawler(root_path="tests/fixtures/posix/sample_local_fs")
-    repo.run_crawlers(crawlers=[posix_crawler])
-    threads = list(repo.run_crawlers(crawlers=[posix_crawler]))
-    assert len(threads) == 5
+def test_repo_run_single_crawler(repository, sample_local_fs_crawler):
+    repository.run_crawlers(crawlers=[sample_local_fs_crawler])
+    with repository.get_connection() as conn:
+        cur = conn.cursor()
+        assert len(cur.execute("""select * from thread;""").fetchall()) == 5
