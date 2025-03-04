@@ -12,10 +12,9 @@ def test_invalid_path_crawler_initialization(invalid_path_crawler):
 
 
 def test_invalid_path_crawler_crawl(invalid_path_crawler):
-    """Test that crawling an invalid path returns an empty list."""
-    # The crawler doesn't raise an exception but returns an empty iterator
-    threads = list(invalid_path_crawler.crawl())
-    assert len(threads) == 0
+    """Test that crawling an invalid path raises FileNotFoundError."""
+    with pytest.raises(FileNotFoundError):
+        list(invalid_path_crawler.crawl())
 
 
 def test_nonexistent_directory_crawler():
@@ -26,10 +25,10 @@ def test_nonexistent_directory_crawler():
     # Initialize crawler with non-existent path
     crawler = POSIXLocalCrawler(root_path=temp_nonexistent_path)
     
-    # Verify the crawler was created but crawling returns empty list
+    # Verify the crawler was created but crawling fails
     assert str(crawler.root_path) == temp_nonexistent_path
-    threads = list(crawler.crawl())
-    assert len(threads) == 0
+    with pytest.raises(FileNotFoundError):
+        list(crawler.crawl())
 
 
 def test_path_becomes_invalid(tmp_path):
@@ -49,9 +48,9 @@ def test_path_becomes_invalid(tmp_path):
     test_file.unlink()
     test_dir.rmdir()
     
-    # Verify crawling now returns empty list
-    threads = list(crawler.crawl())
-    assert len(threads) == 0
+    # Verify crawling now fails
+    with pytest.raises(FileNotFoundError):
+        list(crawler.crawl())
 
 
 def test_relative_path_crawler():

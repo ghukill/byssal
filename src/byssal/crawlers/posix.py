@@ -12,6 +12,11 @@ class POSIXLocalCrawler(Crawler):
         self.root_path = Path(root_path).expanduser()
 
     def crawl(self):
+        # Check if the root path exists before attempting to crawl
+        if not self.root_path.exists():
+            logger.error(f"Path does not exist: {self.root_path}")
+            raise FileNotFoundError(f"The specified path does not exist: {self.root_path}")
+            
         for file in self._discover_files(self.root_path):
             thread = POSIXLocalThread.from_filepath(file)
             yield thread
