@@ -52,7 +52,6 @@ class POSIXLocalThread(Thread):
         return cls(
             thread_uuid=str(uuid.uuid4()),
             sha256=cls.calculate_sha256_from_filepath(filepath),
-            md5=cls.calculate_md5_from_filepath(filepath),
             uri=str(filepath),
             created=datetime.datetime.now(),
             exists=True,

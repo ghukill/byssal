@@ -35,7 +35,7 @@ class Repository:
             create table if not exists thread (
                 thread_uuid str primary key,
                 type text,
-                md5 text,
+                sha256 text,
                 uri text,
                 date_created datetime,
                 active boolean
@@ -48,7 +48,7 @@ class Repository:
         with self.get_connection() as connection:
             cursor = connection.cursor()
             insert_sql = """
-            insert into thread (thread_uuid, type, md5, uri, date_created, active)
+            insert into thread (thread_uuid, type, sha256, uri, date_created, active)
             values (?, ?, ?, ?, ?, ?);
             """
             cursor.execute(
@@ -56,7 +56,7 @@ class Repository:
                 (
                     thread.thread_uuid,
                     thread.thread_type,
-                    thread.md5,
+                    thread.sha256,
                     thread.uri,
                     thread.created,
                     thread.exists,
