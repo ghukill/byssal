@@ -18,19 +18,19 @@ class Thread(ABC):
     def __init__(
         self,
         thread_uuid: str,
-        md5: str,
+        sha256: str,
         uri: str,
         created: datetime.datetime,
         exists: bool | None = None,
     ):
         self.thread_uuid = thread_uuid
-        self.md5 = md5
+        self.sha256 = sha256
         self.uri = uri
         self.created = created
         self._exists = exists
 
     @abstractmethod
-    def calculate_md5(self):
+    def calculate_sha256(self):
         pass
 
     @abstractmethod

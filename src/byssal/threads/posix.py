@@ -13,21 +13,21 @@ class POSIXLocalThread(Thread):
     def check_exists(self) -> bool:
         return os.path.exists(self.uri)
 
-    def calculate_md5(self):
-        return self.calculate_md5_from_filepath(self.uri)
+    def calculate_sha256(self):
+        return self.calculate_sha256_from_filepath(self.uri)
 
     @classmethod
-    def calculate_md5_from_filepath(cls, filepath: str | Path) -> str:
-        """Calculate MD5 of file.
+    def calculate_sha256_from_filepath(cls, filepath: str | Path) -> str:
+        """Calculate SHA-256 of file.
 
         This is performed by reading the file in batches and incrementally updating the
-        MD5, making this a memory safe operation for even large files.
+        SHA-256, making this a memory safe operation for even large files.
         """
-        hash_md5 = hashlib.md5()
+        hash_sha256 = hashlib.sha256()
         with open(filepath, "rb") as f:
             for chunk in iter(lambda: f.read(4096), b""):
-                hash_md5.update(chunk)
-        return hash_md5.hexdigest()
+                hash_sha256.update(chunk)
+        return hash_sha256.hexdigest()
 
     @classmethod
     def from_filepath(cls, filepath: str | Path):
@@ -35,7 +35,7 @@ class POSIXLocalThread(Thread):
             filepath = Path(filepath)
         return cls(
             thread_uuid=str(uuid.uuid4()),
-            md5=cls.calculate_md5_from_filepath(filepath),
+            sha256=cls.calculate_sha256_from_filepath(filepath),
             uri=str(filepath),
             created=datetime.datetime.now(),
             exists=True,
